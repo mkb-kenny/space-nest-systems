@@ -1,0 +1,143 @@
+/* ========================
+   PERFORMANCE OPTIMIZATION CSS
+   ======================== */
+
+/* GPU-accelerate all animations globally */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling with reduced motion respect */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Contain layout calculations for sections */
+section {
+  contain: layout style;
+}
+
+/* GPU layer promotion for animated elements */
+.animate-float,
+.animate-spin,
+.animate-spin-slow,
+.animate-spin-reverse,
+.animate-bounce,
+.animate-pulse,
+.animate-marquee,
+.animate-marquee-reverse,
+.animate-orbit {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Smooth image rendering */
+img {
+  content-visibility: auto;
+  contain-intrinsic-size: 300px 200px;
+}
+
+/* Optimize backdrop-blur performance */
+.backdrop-blur-sm,
+.backdrop-blur-md,
+.backdrop-blur-lg,
+.backdrop-blur-xl,
+.backdrop-blur-2xl,
+.backdrop-blur-3xl {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Optimize transition properties - avoid 'transition: all' */
+a, button {
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fade-in animation for modals and overlays */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Smooth loading transition */
+@keyframes smoothFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-smooth-enter {
+  animation: smoothFadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Optimize font rendering */
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Touch action optimization for mobile scroll */
+.overflow-y-auto,
+.overflow-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Prevent layout shift from images */
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+#root {
+  overflow-x: hidden;
+}
+
+/* Optimize hover states - only apply on devices that support hover */
+@media (hover: hover) and (pointer: fine) {
+  .hover\:scale-105:hover {
+    transform: scale(1.05);
+  }
+  .hover\:-translate-y-2:hover {
+    transform: translateY(-0.5rem);
+  }
+  .hover\:-translate-y-3:hover {
+    transform: translateY(-0.75rem);
+  }
+}
+
+/* Content visibility for off-screen sections */
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
